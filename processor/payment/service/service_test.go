@@ -61,7 +61,7 @@ func TestProcessPayment(t *testing.T) {
 
 	var err models.Error
 	repo.EXPECT().GetCardSensitiveData(test.Input.Token, &err).Return(models.CardSensitiveData{Number: "1234567891234567", CVV: ""})
-	gate.EXPECT().ProcessPayment(test.Input.Card, test.Input.Process, test.Input.AcquirerID, err).Return(test.ExpectedResult)
+	gate.EXPECT().ProcessPayment(test.Input.Card, test.Input.Process, test.Input.AcquirerID, &err).Return(test.ExpectedResult)
 
 	ret := service.ProcessPayment(test.Input, &err)
 
