@@ -36,7 +36,7 @@ func TestGetCardSensitiveData(t *testing.T) {
 
 	type test struct {
 		Token          string
-		ExpectedOutput *models.CardSensitiveData
+		ExpectedOutput models.CardSensitiveData
 		ExpectedError  models.Error
 	}
 
@@ -44,7 +44,7 @@ func TestGetCardSensitiveData(t *testing.T) {
 
 	tests["ReturnValue"] = test{
 		Token: "blaoaslkdajeifaepfae.asiudh123123785.3hauk.498a84",
-		ExpectedOutput: &models.CardSensitiveData{
+		ExpectedOutput: models.CardSensitiveData{
 			Number: "426501269876325",
 			CVV:    "123",
 		},
