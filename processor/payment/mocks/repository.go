@@ -34,10 +34,10 @@ func (m *MockRepository) EXPECT() *MockRepositoryMockRecorder {
 }
 
 // GetCardSensitiveData mocks base method
-func (m *MockRepository) GetCardSensitiveData(token string, errors *models.Error) *models.CardSensitiveData {
+func (m *MockRepository) GetCardSensitiveData(token string, errors *models.Error) models.CardSensitiveData {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetCardSensitiveData", token, errors)
-	ret0, _ := ret[0].(*models.CardSensitiveData)
+	ret0, _ := ret[0].(models.CardSensitiveData)
 	return ret0
 }
 
