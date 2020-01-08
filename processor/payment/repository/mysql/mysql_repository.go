@@ -3,6 +3,7 @@ package mysql
 import (
 	"database/sql"
 	"fmt"
+	_ "github.com/go-sql-driver/mysql"
 	"processor/payment"
 	"processor/payment/models"
 )
