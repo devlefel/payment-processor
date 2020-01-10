@@ -1,1 +1,3 @@
 .idea
+database/mysql/authenticator/mysql_data
+database/mysql/processor/mysql_data

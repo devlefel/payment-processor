@@ -19,6 +19,7 @@ services:
     build: ./authenticator
     ports:
       - 8081:8081
+      - 9000:8081
     depends_on:
       -  "authenticator-mysql"
     networks:
@@ -34,19 +35,19 @@ services:
       MYSQL_ROOT_PASSWORD: Xiulop25_pI98prd@root.process
       MYSQL_DATABASE: processor
     ports:
-      - "3308:3306"
+      - "3308:3308"
     networks:
-      auth_net:
+      process_net:
         ipv4_address: 172.30.1.1
-    processor-api:
-      build: ./processor
-      ports:
-        - 8082:8081
-      depends_on:
-        - "processor-mysql"
-      networks:
-        auth_net:
-          ipv4_address: 172.30.1.2
+  processor-api:
+    build: ./processor
+    ports:
+    - 8082:8082
+    depends_on:
+    - "processor-mysql"
+    networks:
+      process_net:
+        ipv4_address: 172.30.1.2
 networks:
   auth_net:
     ipam:
