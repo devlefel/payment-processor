@@ -48,9 +48,11 @@ func (s *service) ProcessPayment(req models.Request, errors *models.Error) bool 
 
 	wg.Wait()
 	req.Card.Sensitive = sData
-	errors = <-cErr
+	newErrors := <-cErr
 
-	if len(errors.Validation) > 0 || len(errors.Internal) > 0 {
+	if len(newErrors.Validation) > 0 || len(newErrors.Internal) > 0 {
+		errors.Internal = newErrors.Internal
+		errors.Validation = newErrors.Validation
 		return false
 	}
 
