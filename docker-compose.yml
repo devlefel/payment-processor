@@ -5,7 +5,7 @@ services:
     image: mysql
     container_name: authenticator-mysql
     volumes:
-      - ./mysql/scripts:/docker-entrypoint-initdb.d/
+      - ./database/mysql/authenticator/scripts:/docker-entrypoint-initdb.d/
       - ./database/mysql/authenticator/mysql_data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: dev@root.authXiulop25_pI98
@@ -15,6 +15,20 @@ services:
     networks:
       auth_net:
         ipv4_address: 172.28.1.1
+  processor-mysql:
+    image: mysql
+    container_name: processor-mysql
+    volumes:
+      - ./database/mysql/processor/scripts:/docker-entrypoint-initdb.d/
+      - ./database/mysql/processor/mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: Xiulop25_pI98prd@root.process
+      MYSQL_DATABASE: processor
+    ports:
+      - "3308:3308"
+    networks:
+      process_net:
+        ipv4_address: 172.30.1.1
   authenticator-api:
     build: ./authenticator
     ports:
@@ -25,20 +39,6 @@ services:
     networks:
       auth_net:
         ipv4_address: 172.28.1.2
-  processor-mysql:
-    image: mysql
-    container_name: processor-mysql
-    volumes:
-      - ./mysql/scripts:/docker-entrypoint-initdb.d/
-      - ./database/mysql/processor/mysql_data:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: Xiulop25_pI98prd@root.process
-      MYSQL_DATABASE: processor
-    ports:
-      - "3308:3308"
-    networks:
-      process_net:
-        ipv4_address: 172.30.1.1
   processor-api:
     build: ./processor
     ports:

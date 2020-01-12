@@ -57,7 +57,7 @@ func main() {
 	r := chi.NewMux()
 	processorhttp.NewHandler(serv, r)
 	fmt.Println("Router Started!")
-	port := ":8081"
+	port := ":8082"
 	fmt.Println(fmt.Sprintf("API Started! Listening on Port: %s", port))
 	log.Fatal(http.ListenAndServe(port, r))
 }
