@@ -31,7 +31,7 @@ func (r *repo) ping() error {
 }
 
 func (r *repo) GetCardSensitiveData(token string, errors *models.Error) models.CardSensitiveData {
-	stmt, err := r.db.Prepare("SELECT number, cvv FROM processors.cards WHERE token = MD5(?)")
+	stmt, err := r.db.Prepare("SELECT number, cvv FROM processor.cards WHERE token_id = MD5(?)")
 
 	if err != nil {
 		errors.Internal = append(errors.Internal, err)
@@ -58,7 +58,7 @@ func (r *repo) GetCardSensitiveData(token string, errors *models.Error) models.C
 }
 
 func (r *repo) GetAcquirerURL(id int64, errors *models.Error) string {
-	stmt, err := r.db.Prepare("SELECT url FROM processors.acquirers WHERE id = ?")
+	stmt, err := r.db.Prepare("SELECT url FROM processor.acquirers WHERE id = ?")
 
 	if err != nil {
 		errors.Internal = append(errors.Internal, err)
