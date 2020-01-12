@@ -1,0 +1,67 @@
+version: '3'
+
+services:
+  authenticator-mysql:
+    image: mysql
+    container_name: authenticator-mysql
+    volumes:
+      - ./database/mysql/authenticator/scripts:/docker-entrypoint-initdb.d/
+      - ./database/mysql/authenticator/mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: dev@root.authXiulop25_pI98
+      MYSQL_DATABASE: authenticator
+    ports:
+      - "3306:3306"
+    networks:
+      auth_net:
+        ipv4_address: 172.28.1.1
+  processor-mysql:
+    image: mysql
+    container_name: processor-mysql
+    volumes:
+      - ./database/mysql/processor/scripts:/docker-entrypoint-initdb.d/
+      - ./database/mysql/processor/mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: Xiulop25_pI98prd@root.process
+      MYSQL_DATABASE: processor
+    ports:
+      - "3308:3308"
+    networks:
+      process_net:
+        ipv4_address: 172.30.1.1
+  authenticator-api:
+    build: ./authenticator
+    command:  ["./wait-for-it.sh", "authenticator-mysql:3306", "--", "authenticator"]
+    ports:
+      - 8081:8081
+      - 9000:8081
+    depends_on:
+      -  "authenticator-mysql"
+    links:
+      - "authenticator-mysql"
+    networks:
+      auth_net:
+        ipv4_address: 172.28.1.2
+  processor-api:
+    build: ./processor
+    command:  ["./wait-for-it.sh", "processor-mysql:3306", "--", "processor"]
+    ports:
+    - 8082:8082
+    depends_on:
+    - "processor-mysql"
+    links:
+      - "processor-mysql"
+    networks:
+      process_net:
+        ipv4_address: 172.30.1.2
+networks:
+  auth_net:
+    ipam:
+      driver: default
+      config:
+        - subnet:  172.28.0.0/16
+  process_net:
+    ipam:
+      driver: default
+      config:
+        - subnet:  172.30.0.0/16
