@@ -40,14 +40,16 @@ func (h *handler) Login(w http.ResponseWriter, r *http.Request) {
 
 	tokens, errs := h.service.Login(login)
 
-	if len(errs.Validation) > 0 {
-		http.Error(w, errs.Validation[0].Error(), http.StatusBadRequest)
-		return
-	}
+	if errs != nil {
+		if len(errs.Validation) > 0 {
+			http.Error(w, errs.Validation[0].Error(), http.StatusBadRequest)
+			return
+		}
 
-	if len(errs.Internal) > 0 {
-		http.Error(w, errs.Internal[0].Error(), http.StatusInternalServerError)
-		return
+		if len(errs.Internal) > 0 {
+			http.Error(w, errs.Internal[0].Error(), http.StatusInternalServerError)
+			return
+		}
 	}
 
 	var response = struct {

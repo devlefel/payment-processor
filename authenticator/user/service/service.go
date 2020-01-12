@@ -18,14 +18,18 @@ func NewService(r user.Repository) user.Service {
 func (s *service) Login(login models.Login) ([]string, *models.Error) {
 	userID, errs := s.repo.AuthUser(login)
 
-	if len(errs.Internal) > 0 || len(errs.Validation) > 0 {
-		return nil, errs
+	if errs != nil {
+		if len(errs.Internal) > 0 || len(errs.Validation) > 0 {
+			return nil, errs
+		}
 	}
 
 	tokens, errs := s.repo.GetTokens(userID)
 
-	if len(errs.Internal) > 0 || len(errs.Validation) > 0 {
-		return nil, errs
+	if errs != nil {
+		if len(errs.Internal) > 0 || len(errs.Validation) > 0 {
+			return nil, errs
+		}
 	}
 
 	return tokens, nil
