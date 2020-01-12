@@ -58,7 +58,7 @@ func TestGetCardSensitiveData(t *testing.T) {
 		t.Run(title, func(t *testing.T) {
 
 			rows := sqlmock.NewRows([]string{"number", "cvv"}).AddRow(test.ExpectedOutput.Number, test.ExpectedOutput.CVV)
-			mock.ExpectPrepare("SELECT number, cvv FROM processors.cards").ExpectQuery().WithArgs(test.Token).WillReturnRows(rows)
+			mock.ExpectPrepare("SELECT number, cvv FROM processor.cards").ExpectQuery().WithArgs(test.Token).WillReturnRows(rows)
 			oldError := test.ExpectedError
 			ret := repo.GetCardSensitiveData(test.Token, &test.ExpectedError)
 
@@ -97,7 +97,7 @@ func TestGetAcquirerURL(t *testing.T) {
 		t.Run(title, func(t *testing.T) {
 
 			rows := sqlmock.NewRows([]string{"url"}).AddRow(test.ExpectedOutput)
-			mock.ExpectPrepare("SELECT url FROM processors.acquirers").ExpectQuery().WithArgs(test.AcquirerID).WillReturnRows(rows)
+			mock.ExpectPrepare("SELECT url FROM processor.acquirers").ExpectQuery().WithArgs(test.AcquirerID).WillReturnRows(rows)
 			oldError := test.ExpectedError
 			ret := repo.GetAcquirerURL(test.AcquirerID, &test.ExpectedError)
 
