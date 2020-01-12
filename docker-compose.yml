@@ -31,20 +31,26 @@ services:
         ipv4_address: 172.30.1.1
   authenticator-api:
     build: ./authenticator
+    command:  ["./wait-for-it.sh", "authenticator-mysql:3306", "--", "authenticator"]
     ports:
       - 8081:8081
       - 9000:8081
     depends_on:
       -  "authenticator-mysql"
+    links:
+      - "authenticator-mysql"
     networks:
       auth_net:
         ipv4_address: 172.28.1.2
   processor-api:
     build: ./processor
+    command:  ["./wait-for-it.sh", "processor-mysql:3306", "--", "processor"]
     ports:
     - 8082:8082
     depends_on:
     - "processor-mysql"
+    links:
+      - "processor-mysql"
     networks:
       process_net:
         ipv4_address: 172.30.1.2
